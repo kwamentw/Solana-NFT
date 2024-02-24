@@ -2,7 +2,11 @@
 use anchor_lang::prelude::*;
 use anchor_spl::{
     associated_token::AssociatedToken,
-    token::{Mint, MintTo, Token, TokenAccount},
+    metadata::Metadata, //new
+    token::{mint_to, Mint, MintTo, Token, TokenAccount},
+};
+use mpl_token_metadata::{
+    pda::{find_master_edition_account, find_metadata_account}, //new
 };
 
 declare_id!("9gcy363E4e8to6GCVje5xxLfqe6krVFfot2HHymteCod");
@@ -14,7 +18,7 @@ pub mod solana_nft {
 
     pub fn InitNFT(ctx: Context<InitNFT>) -> Result<()> {
         // creating mint account
-        let _cpi_context = CpiContext::new(
+        let cpi_context = CpiContext::new(
             ctx.accounts.token_program.to_account_info(),
             MintTo {
                 mint: ctx.accounts.mint.to_account_info(),
@@ -22,6 +26,7 @@ pub mod solana_nft {
                 authority: ctx.accounts.signer.to_account_info(),
             },
         );
+        mint_to(cpi_context, 1)?;
         Ok(())
     }
 }
