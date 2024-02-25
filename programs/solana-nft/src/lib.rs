@@ -2,7 +2,11 @@
 use anchor_lang::prelude::*;
 use anchor_spl::{
     associated_token::AssociatedToken,
-    metadata::Metadata, //new
+    metadata::{
+        create_master_edition_v3, create_metadata_accounts_v3, CreateMasterEditionV3,
+        CreateMetadataAccountsV3, Metadata, MetadataAccount,
+    }, //new
+    state::DataV2,
     token::{mint_to, Mint, MintTo, Token, TokenAccount},
 };
 use mpl_token_metadata::{
@@ -27,6 +31,10 @@ pub mod solana_nft {
             },
         );
         mint_to(cpi_context, 1)?;
+
+        // create metadata account
+        let cpi_context=CpiContext::new(ctsx.accounts.token_metadata_program.to_account_info(), CreateMetadataAccountsV3{metadata:ctx.accounts.metadata_account.accoun})
+
         Ok(())
     }
 }
@@ -47,6 +55,12 @@ pub struct InitNFT<'info> {
     #[account(init_if_needed,payer = signer,associated_token::mint=mint,associated_token::authority=signer)]
     // initialising token account with account type since it has many constraints
     pub associated_token_account: Account<'info, TokenAccount>,
+    /// CHECK - address
+    #[account(mut, address=find_metadata_account(&mint.key()).0,)]
+    pub metadata_account: AccountInfo<'info>,
+    /// CHECK - address
+    #[account(mut,address=find_master_edition_account(&mint.key()).0,)]
+    pub master_edition_account: AccountInfo<'info>,
 
     /////////////////////////--------program declaration--------//////////////////////////////
     pub token_program: Program<'info, Token>, // new token program kinda like the mastermind
