@@ -11,7 +11,7 @@ solana_nft = "9gcy363E4e8to6GCVje5xxLfqe6krVFfot2HHymteCod"
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "Localnet"
+cluster = "devnet"
 wallet = "/home/fourb/.config/solana/id.json"
 
 [scripts]
