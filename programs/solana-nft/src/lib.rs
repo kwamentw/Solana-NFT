@@ -1,4 +1,4 @@
-// anchor modules you have to declare when using them
+// anchor modules you have to add when using them
 use anchor_lang::prelude::*;
 use anchor_spl::{
     associated_token::AssociatedToken,

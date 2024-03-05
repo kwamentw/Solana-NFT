@@ -1,16 +1,17 @@
 import * as anchor from "@coral-xyz/anchor";
 import { Program } from "@coral-xyz/anchor";
-import { SolanaNft } from "../target/types/solana_nft";
+import { SolanaNftAnchor } from "../target/types/solana_nft_anchor";
 
 describe("solana-nft", () => {
   // Configure the client to use the local cluster.
-  anchor.setProvider(anchor.AnchorProvider.env());
+  const provider =anchor.AnchorProvider.env();
+  anchor.setProvider(provider);
+  const program = anchor.workspace.SolanaNftAnchor as Program<SolanaNftAnchor>;
 
-  const program = anchor.workspace.SolanaNft as Program<SolanaNft>;
 
   it("Is initialized!", async () => {
     // Add your test here.
-    const tx = await program.methods.initialize().rpc();
+    const tx = await program.methods.initNft().rpc();
     console.log("Your transaction signature", tx);
   });
 });
