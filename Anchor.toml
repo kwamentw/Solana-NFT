@@ -4,7 +4,7 @@
 seeds = false
 skip-lint = false
 
-[programs.localnet]
+[programs.localnet] 
 solana_nft = "9gcy363E4e8to6GCVje5xxLfqe6krVFfot2HHymteCod"
 
 [registry]
